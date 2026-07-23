@@ -19,8 +19,8 @@
             --sidebar-text: #1c1608;
             --sidebar-muted: #8a7a4a;
             --shadow: 0 20px 48px rgba(28, 22, 8, 0.12);
-            --sidebar-width: 280px;
-            --sidebar-collapsed: 80px;
+            --sidebar-width: 220px;
+            --sidebar-collapsed: 64px;
         }
 
         * {
@@ -37,6 +37,7 @@
         body {
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
+            font-size: 0.8125rem;
             color: var(--ink);
             background: #ffffff;
             overflow: hidden;
@@ -57,7 +58,7 @@
             flex-direction: column;
             background: var(--sidebar-bg);
             color: var(--sidebar-text);
-            border-right: 3px solid var(--yellow);
+            border-right: 2px solid var(--yellow);
             position: relative;
             z-index: 10;
             overflow: hidden;
@@ -73,8 +74,8 @@
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 0.5rem;
-            padding: 1.25rem 0.85rem 1.1rem;
+            gap: 0.4rem;
+            padding: 0.75rem 0.6rem 0.7rem;
             border-bottom: 1px solid rgba(245, 197, 24, 0.25);
         }
 
@@ -89,21 +90,21 @@
         .sidebar-brand-logo {
             display: block;
             width: 100%;
-            max-width: 100px;
+            max-width: 78px;
             height: auto;
-            border-radius: 6px;
+            border-radius: 5px;
             background: #ffffff;
         }
 
         .sidebar-collapse {
             flex-shrink: 0;
-            width: 2.25rem;
-            height: 2.25rem;
+            width: 1.7rem;
+            height: 1.7rem;
             border: 1px solid rgba(245, 197, 24, 0.45);
-            border-radius: 6px;
+            border-radius: 5px;
             background: rgba(245, 197, 24, 0.12);
             color: var(--yellow);
-            font-size: 1rem;
+            font-size: 0.85rem;
             line-height: 1;
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.25s ease;
@@ -122,7 +123,7 @@
         .app.is-sidebar-collapsed .sidebar-top {
             flex-direction: column;
             align-items: center;
-            padding: 1rem 0.6rem;
+            padding: 0.65rem 0.4rem;
         }
 
         .app.is-sidebar-collapsed .sidebar-brand {
@@ -133,19 +134,19 @@
         }
 
         .sidebar-section {
-            padding: 1.25rem 0.75rem 0.5rem;
+            padding: 0.75rem 0.5rem 0.35rem;
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
         }
 
         .sidebar-section-label {
-            font-size: 0.68rem;
+            font-size: 0.58rem;
             font-weight: 700;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--sidebar-muted);
-            padding: 0 0.75rem 0.65rem;
+            padding: 0 0.55rem 0.45rem;
             white-space: nowrap;
             overflow: hidden;
             transition: opacity 0.2s ease;
@@ -161,13 +162,13 @@
         .nav {
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
+            gap: 0.15rem;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.55rem;
             width: 100%;
             text-align: left;
             border: 0;
@@ -175,9 +176,9 @@
             color: var(--sidebar-text);
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
-            font-size: 0.92rem;
-            padding: 0.8rem 0.9rem;
-            border-radius: 6px;
+            font-size: 0.78rem;
+            padding: 0.48rem 0.6rem;
+            border-radius: 5px;
             cursor: pointer;
             position: relative;
             transition: background-color 0.2s ease, color 0.2s ease, padding 0.25s ease;
@@ -189,7 +190,7 @@
             left: 0;
             top: 18%;
             bottom: 18%;
-            width: 3px;
+            width: 2px;
             border-radius: 2px;
             background: transparent;
             transition: background-color 0.2s ease;
@@ -210,8 +211,8 @@
         }
 
         .nav-icon {
-            width: 1.35rem;
-            height: 1.35rem;
+            width: 1.15rem;
+            height: 1.15rem;
             border-radius: 4px;
             background: rgba(245, 197, 24, 0.28);
             flex-shrink: 0;
@@ -222,8 +223,8 @@
         }
 
         .nav-icon svg {
-            width: 0.95rem;
-            height: 0.95rem;
+            width: 0.8rem;
+            height: 0.8rem;
             display: block;
         }
 
@@ -240,7 +241,7 @@
 
         .app.is-sidebar-collapsed .nav-item {
             justify-content: center;
-            padding: 0.8rem 0.5rem;
+            padding: 0.5rem 0.35rem;
         }
 
         .app.is-sidebar-collapsed .nav-label {
@@ -250,18 +251,18 @@
         }
 
         .sidebar-footer {
-            padding: 1rem 0.85rem 1.35rem;
+            padding: 0.65rem 0.55rem 0.85rem;
             border-top: 1px solid rgba(245, 197, 24, 0.25);
         }
 
         .btn-logout {
             width: 100%;
             border: 1px solid rgba(245, 197, 24, 0.45);
-            border-radius: 6px;
-            padding: 0.7rem 1rem;
+            border-radius: 5px;
+            padding: 0.4rem 0.7rem;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
-            font-size: 0.88rem;
+            font-size: 0.75rem;
             color: var(--ink);
             background: var(--yellow);
             cursor: pointer;
@@ -276,8 +277,8 @@
         }
 
         .app.is-sidebar-collapsed .btn-logout {
-            padding: 0.7rem 0.35rem;
-            font-size: 0.72rem;
+            padding: 0.4rem 0.25rem;
+            font-size: 0.65rem;
         }
 
         /* ===== Conteúdo + iframe ===== */
@@ -294,14 +295,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 1rem;
-            padding: 1rem 1.5rem;
+            gap: 0.65rem;
+            padding: 0.55rem 1rem;
             border-bottom: 1px solid var(--line);
             background: var(--surface);
         }
 
         .workspace-title {
-            font-size: 1rem;
+            font-size: 0.88rem;
             font-weight: 500;
             color: var(--ink);
         }
@@ -327,9 +328,9 @@
             color: var(--ink);
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
-            font-size: 0.85rem;
-            border-radius: 6px;
-            padding: 0.55rem 0.9rem;
+            font-size: 0.75rem;
+            border-radius: 5px;
+            padding: 0.35rem 0.65rem;
             cursor: pointer;
         }
 
@@ -364,13 +365,13 @@
 
             .app.is-sidebar-collapsed .nav-item {
                 justify-content: flex-start;
-                padding: 0.8rem 0.9rem;
+                padding: 0.48rem 0.6rem;
             }
 
             .app.is-sidebar-collapsed .sidebar-top {
                 flex-direction: row;
                 align-items: flex-start;
-                padding: 1.25rem 0.85rem 1.1rem;
+                padding: 0.75rem 0.6rem 0.7rem;
             }
 
             .app.is-sidebar-collapsed .sidebar-collapse {

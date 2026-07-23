@@ -20,8 +20,7 @@ class LoginController extends Controller
     //processar login
     public function login(Request $request): RedirectResponse
     {
-
-        $credentials =$request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ], [
@@ -30,14 +29,25 @@ class LoginController extends Controller
             'password.required' => 'A senha é obrigatória',
         ]);
 
-        if (Auth::guard('web')->attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended("/menu");
+        if (! Auth::guard('web')->attempt($credentials)) {
+            return back()->withErrors([
+                'email' => 'As credenciais fornecidas são inválidas',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'As credenciais fornecidas são inválidas',
-        ])->onlyInput('email');
+        $user = Auth::guard('web')->user();
+
+        if ($user?->user_group !== 'admin') {
+            Auth::guard('web')->logout();
+
+            return back()->withErrors([
+                'email' => 'Apenas administradores podem acessar o painel.',
+            ])->onlyInput('email');
+        }
+
+        $request->session()->regenerate();
+
+        return redirect()->intended('/menu');
     }
 
     //deslogar

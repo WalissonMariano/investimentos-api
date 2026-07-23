@@ -30,34 +30,35 @@
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
+            font-size: 0.8125rem;
             color: var(--ink);
             background: #ffffff;
-            padding: 1.75rem 1.5rem 2.5rem;
+            padding: 1.15rem 1.1rem 1.75rem;
         }
 
         .page {
-            width: min(100%, 640px);
-            margin: 0 auto;
+            width: 100%;
+            max-width: none;
         }
 
         .page-header {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.25rem;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--line);
         }
 
         .eyebrow {
             display: block;
-            font-size: 0.68rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--yellow-deep);
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.2rem;
         }
 
         h1 {
-            font-size: clamp(1.4rem, 3vw, 1.85rem);
+            font-size: clamp(1.05rem, 2.4vw, 1.25rem);
             font-weight: 500;
             letter-spacing: -0.03em;
         }
@@ -65,54 +66,65 @@
         .panel {
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 18px;
+            border-radius: 6px;
             box-shadow: var(--shadow);
-            padding: 1.5rem 1.4rem;
+            padding: 0.95rem 1rem;
         }
 
         .field {
-            margin-bottom: 1.15rem;
+            margin-bottom: 0.75rem;
         }
 
         label {
             display: block;
-            font-size: 0.82rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.28rem;
             color: var(--ink-soft);
         }
 
         .hint {
             display: block;
-            margin-top: 0.35rem;
-            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            font-size: 0.68rem;
             color: var(--ink-soft);
         }
 
         input[type="text"],
         input[type="email"],
-        input[type="password"] {
+        input[type="password"],
+        select {
             width: 100%;
             border: 1px solid var(--line);
             background: var(--muted-bg);
-            border-radius: 14px;
-            padding: 0.85rem 1rem;
+            border-radius: 5px;
+            padding: 0.45rem 0.7rem;
             font: inherit;
-            font-size: 0.95rem;
+            font-size: 0.8rem;
             color: var(--ink);
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        input:focus {
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%234a3d1f' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            padding-right: 2rem;
+            cursor: pointer;
+        }
+
+        input:focus,
+        select:focus {
             outline: none;
             border-color: var(--yellow);
-            box-shadow: 0 0 0 4px rgba(245, 197, 24, 0.28);
+            box-shadow: 0 0 0 3px rgba(245, 197, 24, 0.28);
         }
 
         .field-error {
             display: block;
-            margin-top: 0.35rem;
-            font-size: 0.8rem;
+            margin-top: 0.25rem;
+            font-size: 0.72rem;
             color: var(--negative);
         }
 
@@ -120,18 +132,18 @@
             background: rgba(180, 83, 9, 0.1);
             border: 1px solid rgba(180, 83, 9, 0.25);
             color: #92400e;
-            border-radius: 12px;
-            padding: 0.75rem 0.9rem;
-            font-size: 0.88rem;
-            margin-bottom: 1.15rem;
+            border-radius: 5px;
+            padding: 0.5rem 0.7rem;
+            font-size: 0.78rem;
+            margin-bottom: 0.75rem;
         }
 
         .actions {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 1.5rem;
-            padding-top: 1.25rem;
+            gap: 0.5rem;
+            margin-top: 0.9rem;
+            padding-top: 0.75rem;
             border-top: 1px solid var(--line);
         }
 
@@ -140,11 +152,11 @@
             align-items: center;
             justify-content: center;
             border: 0;
-            border-radius: 999px;
-            padding: 0.75rem 1.25rem;
+            border-radius: 5px;
+            padding: 0.4rem 0.75rem;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             text-decoration: none;
             cursor: pointer;
             transition: background-color 0.2s ease, transform 0.2s ease, color 0.2s ease;
@@ -174,7 +186,7 @@
 
         @media (max-width: 560px) {
             body {
-                padding: 1.25rem 1rem 2rem;
+                padding: 0.9rem 0.75rem 1.4rem;
             }
 
             .actions {
@@ -208,8 +220,7 @@
 
             <form
                 method="POST"
-                action="#"
-                novalidate
+                action="{{ $isEdit ? route('users.update', $user) : route('users.store') }}"
             >
                 @csrf
                 @if ($isEdit)
@@ -249,18 +260,29 @@
                 </div>
 
                 <div class="field">
+                    <label for="user_group">Grupo</label>
+                    @php
+                        $selectedGroup = old('user_group', $isEdit ? $user->user_group : 'user');
+                    @endphp
+                    <select id="user_group" name="user_group" required>
+                        <option value="user" @selected($selectedGroup === 'user')>Usuário</option>
+                        <option value="admin" @selected($selectedGroup === 'admin')>Administrador</option>
+                    </select>
+                    @if (isset($errors) && $errors->has('user_group'))
+                        <span class="field-error">{{ $errors->first('user_group') }}</span>
+                    @endif
+                </div>
+
+                <div class="field">
                     <label for="password">Senha</label>
                     <input
                         id="password"
                         type="password"
                         name="password"
-                        placeholder="{{ $isEdit ? 'Deixe em branco para manter' : '••••••••' }}"
-                        @if (! $isEdit) required @endif
+                        placeholder="••••••••"
+                        required
                         autocomplete="new-password"
                     >
-                    @if ($isEdit)
-                        <span class="hint">Preencha apenas se quiser alterar a senha.</span>
-                    @endif
                     @if (isset($errors) && $errors->has('password'))
                         <span class="field-error">{{ $errors->first('password') }}</span>
                     @endif
@@ -273,9 +295,12 @@
                         type="password"
                         name="password_confirmation"
                         placeholder="Repita a senha"
-                        @if (! $isEdit) required @endif
+                        required
                         autocomplete="new-password"
                     >
+                    @if (isset($errors) && $errors->has('password_confirmation'))
+                        <span class="field-error">{{ $errors->first('password_confirmation') }}</span>
+                    @endif
                 </div>
 
                 <div class="field">
@@ -285,15 +310,11 @@
                         type="text"
                         name="secret_token"
                         value="{{ old('secret_token') }}"
-                        placeholder="{{ $isEdit ? 'Deixe em branco para manter' : 'Token de integração da API' }}"
-                        @if (! $isEdit) required @endif
+                        placeholder="Token de integração da API"
+                        required
                         autocomplete="off"
                     >
-                    @if ($isEdit)
-                        <span class="hint">Preencha apenas se quiser gerar/alterar o token de integração.</span>
-                    @else
-                        <span class="hint">Usado no login da API (e-mail + secret_token).</span>
-                    @endif
+                    <span class="hint">Usado no login da API (e-mail + secret_token).</span>
                     @if (isset($errors) && $errors->has('secret_token'))
                         <span class="field-error">{{ $errors->first('secret_token') }}</span>
                     @endif
@@ -303,7 +324,7 @@
                     <button type="submit" class="btn btn-primary">
                         {{ $isEdit ? 'Salvar alterações' : 'Criar usuário' }}
                     </button>
-                    <a href="{{ url('/users') }}" class="btn btn-secondary">Cancelar</a>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancelar</a>
                 </div>
             </form>
         </section>

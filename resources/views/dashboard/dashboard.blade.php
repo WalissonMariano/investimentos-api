@@ -31,14 +31,15 @@
             min-height: 100vh;
             font-family: 'Poppins', sans-serif;
             font-weight: 500;
+            font-size: 0.8125rem;
             color: var(--ink);
             background: #ffffff;
-            padding: 1.75rem 1.5rem 2.5rem;
+            padding: 1.15rem 1.1rem 1.75rem;
         }
 
         .page {
-            width: min(100%, 1100px);
-            margin: 0 auto;
+            width: 100%;
+            max-width: none;
         }
 
         .page-header {
@@ -46,65 +47,66 @@
             flex-wrap: wrap;
             align-items: flex-end;
             justify-content: space-between;
-            gap: 1rem;
-            margin-bottom: 1.75rem;
-            padding-bottom: 1.25rem;
+            gap: 0.65rem;
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.75rem;
             border-bottom: 1px solid var(--line);
         }
 
         .eyebrow {
             display: block;
-            font-size: 0.68rem;
+            font-size: 0.6rem;
             font-weight: 700;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.12em;
             text-transform: uppercase;
             color: var(--yellow-deep);
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.2rem;
         }
 
         h1 {
-            font-size: clamp(1.4rem, 3vw, 1.85rem);
+            font-size: clamp(1.05rem, 2.4vw, 1.25rem);
             font-weight: 500;
             letter-spacing: -0.03em;
         }
 
         .header-meta {
-            font-size: 0.85rem;
+            font-size: 0.72rem;
             color: var(--ink-soft);
             text-align: right;
+            line-height: 1.35;
         }
 
         .kpis {
             display: grid;
             grid-template-columns: repeat(4, minmax(0, 1fr));
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 0.65rem;
+            margin-bottom: 0.85rem;
         }
 
         .kpi {
             background: var(--muted-bg);
             border: 1px solid var(--line);
-            border-radius: 18px;
-            padding: 1.15rem 1.2rem;
+            border-radius: 6px;
+            padding: 0.7rem 0.8rem;
             box-shadow: var(--shadow);
         }
 
         .kpi-label {
-            font-size: 0.78rem;
+            font-size: 0.68rem;
             color: var(--ink-soft);
-            margin-bottom: 0.45rem;
+            margin-bottom: 0.3rem;
         }
 
         .kpi-value {
-            font-size: 1.55rem;
+            font-size: 1.2rem;
             font-weight: 600;
             letter-spacing: -0.02em;
             line-height: 1.15;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.25rem;
         }
 
         .kpi-delta {
-            font-size: 0.78rem;
+            font-size: 0.68rem;
             font-weight: 600;
         }
 
@@ -114,36 +116,36 @@
         .grid {
             display: grid;
             grid-template-columns: 1.4fr 1fr;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
+            gap: 0.65rem;
+            margin-bottom: 0.85rem;
         }
 
         .panel {
             background: var(--surface);
             border: 1px solid var(--line);
-            border-radius: 18px;
-            padding: 1.25rem 1.35rem;
+            border-radius: 6px;
+            padding: 0.85rem 0.95rem;
             box-shadow: var(--shadow);
         }
 
         .panel h2 {
-            font-size: 1rem;
+            font-size: 0.88rem;
             font-weight: 600;
-            margin-bottom: 0.35rem;
+            margin-bottom: 0.2rem;
         }
 
         .panel-desc {
-            font-size: 0.84rem;
+            font-size: 0.72rem;
             color: var(--ink-soft);
-            margin-bottom: 1.1rem;
+            margin-bottom: 0.7rem;
         }
 
         .bars {
             display: flex;
             align-items: flex-end;
-            gap: 0.65rem;
-            height: 160px;
-            padding-top: 0.5rem;
+            gap: 0.5rem;
+            height: 120px;
+            padding-top: 0.35rem;
         }
 
         .bar-col {
@@ -151,16 +153,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 0.45rem;
+            gap: 0.3rem;
             height: 100%;
             justify-content: flex-end;
         }
 
         .bar {
             width: 100%;
-            border-radius: 10px 10px 4px 4px;
+            border-radius: 6px 6px 3px 3px;
             background: var(--yellow);
-            min-height: 8px;
+            min-height: 6px;
         }
 
         .bar.is-cdi { background: var(--yellow-deep); }
@@ -168,29 +170,30 @@
         .bar.is-usd { background: #1c1608; }
 
         .bar-label {
-            font-size: 0.72rem;
+            font-size: 0.62rem;
             color: var(--ink-soft);
             text-align: center;
+            line-height: 1.25;
         }
 
         .legend {
             display: flex;
             flex-wrap: wrap;
-            gap: 0.85rem;
-            margin-top: 1rem;
+            gap: 0.65rem;
+            margin-top: 0.7rem;
         }
 
         .legend-item {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            font-size: 0.78rem;
+            gap: 0.3rem;
+            font-size: 0.68rem;
             color: var(--ink-soft);
         }
 
         .dot {
-            width: 0.65rem;
-            height: 0.65rem;
+            width: 0.5rem;
+            height: 0.5rem;
             border-radius: 999px;
             background: var(--yellow);
         }
@@ -203,38 +206,38 @@
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.45rem;
         }
 
         .list li {
             display: flex;
             justify-content: space-between;
-            gap: 1rem;
+            gap: 0.75rem;
             align-items: center;
-            padding: 0.85rem 0.9rem;
+            padding: 0.5rem 0.65rem;
             border: 1px solid var(--line);
-            border-radius: 14px;
+            border-radius: 5px;
             background: var(--muted-bg);
         }
 
         .list strong {
             display: block;
-            font-size: 0.9rem;
+            font-size: 0.78rem;
             font-weight: 600;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.1rem;
         }
 
         .list span {
-            font-size: 0.76rem;
+            font-size: 0.68rem;
             color: var(--ink-soft);
         }
 
         .badge {
             flex-shrink: 0;
-            font-size: 0.72rem;
+            font-size: 0.62rem;
             font-weight: 700;
-            padding: 0.35rem 0.65rem;
-            border-radius: 999px;
+            padding: 0.22rem 0.45rem;
+            border-radius: 5px;
             background: var(--yellow);
             color: var(--ink);
         }
@@ -252,22 +255,24 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.88rem;
+            font-size: 0.78rem;
         }
 
         th,
         td {
             text-align: left;
-            padding: 0.85rem 0.6rem;
+            padding: 0.45rem 0.5rem;
             border-bottom: 1px solid var(--line);
+            line-height: 1.3;
         }
 
         th {
-            font-size: 0.72rem;
+            font-size: 0.62rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.07em;
             text-transform: uppercase;
             color: var(--ink-soft);
+            padding: 0.4rem 0.5rem;
         }
 
         tr:last-child td {
@@ -276,9 +281,9 @@
 
         .status {
             display: inline-block;
-            padding: 0.25rem 0.55rem;
-            border-radius: 999px;
-            font-size: 0.72rem;
+            padding: 0.18rem 0.4rem;
+            border-radius: 5px;
+            font-size: 0.62rem;
             font-weight: 600;
             background: #e8f6ee;
             color: var(--positive);
@@ -301,7 +306,7 @@
 
         @media (max-width: 560px) {
             body {
-                padding: 1.25rem 1rem 2rem;
+                padding: 0.9rem 0.75rem 1.4rem;
             }
 
             .kpis {
