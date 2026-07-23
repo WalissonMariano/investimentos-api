@@ -14,8 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/auth/login', [AuthController::class, 'login']);
+Route::post('/auth/login', 
+    [AuthController::class, 'login']
+);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/auth', [AuthController::class, 'me']);
 });
+
+//fallback route
+Route::any('{any}', function () {
+    return response()->json([
+        'message' => 'Route not found',
+    ], 404);
+})->where('any', '.*');

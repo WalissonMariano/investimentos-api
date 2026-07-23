@@ -13,6 +13,7 @@ class AuthController extends Controller
 {
     public function login(LoginRequest $request): JsonResponse
     {
+
         $user = User::query()
             ->with('company')
             ->where('email', $request->validated('email'))
@@ -35,25 +36,21 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'email' => $user->email,
                 'name' => $user->name,
-                'company_name' => $user->company->name,
-                'company_id' => $user->company_id,
                 'token_timeout_in_seconds' => $tokenTimeoutInSeconds,
             ],
         ]);
+
     }
 
     public function me(): JsonResponse
     {
         /** @var User $user */
         $user = auth('api')->user();
-        $user->load('company');
 
         return response()->json([
             'id' => $user->id,
             'email' => $user->email,
             'name' => $user->name,
-            'company_name' => $user->company->name,
-            'company_id' => $user->company_id,
             'token_timeout_in_seconds' => (int) config('jwt.ttl') * 60,
         ]);
     }
