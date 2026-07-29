@@ -1,5 +1,7 @@
 # Investimentos API
 
+![Investimentos Api](docs/banner/banner-api-investimentos.png)
+
 API REST e painel administrativo do **Termômetro do Poder de Compra**.
 
 O projeto compara um capital em reais com três cenários no mesmo período:
