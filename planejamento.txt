@@ -217,3 +217,19 @@ Tratamento de erros padronizados:
 
 - Testes automatizados
 
+____________
+
+A fazer/feito 28-07-2026
+
+Interface web ok
+Autenticacao web ok
+Crud usuario ok
+autenticaçao api ok
+Criar endpoint termometro que so retorna se vier o token ok
+Criar controller para retornar termometro ok
+Criar service Awersome ok
+Criar service Banco Central ok
+Colocar controller para funcionar 
+Colocar credenciais no .env e colocar exemplo no .env.exemple
+Criar tabela de log 
+colocar dashboard para contabilizar 

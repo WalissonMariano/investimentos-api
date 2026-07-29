@@ -69,5 +69,5 @@ Route::middleware('auth:web')->group(function () {
 
 //fallback
 Route::fallback(function () {
-    return redirect()->route('login.form');
+    return response()->view('error.not-found', [], 404);
 });

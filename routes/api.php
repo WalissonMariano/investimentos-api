@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\TermometroController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,12 @@ Route::post('/auth/login',
 
 Route::middleware('auth:api')->group(function () {
     Route::get('/auth', [AuthController::class, 'me']);
+
+    
+    Route::get('/termometro', 
+        [TermometroController::class, 'index']
+    )->name('termometro.index');
+    
 });
 
 //fallback route

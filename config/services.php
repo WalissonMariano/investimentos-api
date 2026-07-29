@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'awesomeapi' => [
+        'base_url' => env('BASE_URL_AWESOMEAPI'),
+    ],
+
+    'banco_central' => [
+        'base_url' => env('BASE_URL_BANCO_CENTRAL'),
+    ],
+
 ];
