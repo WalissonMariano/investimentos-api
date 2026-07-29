@@ -321,6 +321,32 @@ resources/views/
 
 ---
 
+## Documentação Swagger
+
+Interface interativa da API:
+
+```text
+{APP_URL}/api/documentation
+```
+
+Exemplo local: `http://investimentos-api.test/api/documentation`
+
+Para regenerar a documentação após alterar anotações:
+
+```bash
+php artisan l5-swagger:generate
+```
+
+No Swagger UI, use **Authorize** e informe o JWT no formato:
+
+```text
+Bearer {auth_token}
+```
+
+(ou apenas o token, conforme a UI pedir no campo Bearer).
+
+---
+
 ## Testes rápidos
 
 ```bash
@@ -342,5 +368,6 @@ curl "$APP_URL/api/termometro?valor=10000&dataInicio=2024-01-01&dataFim=2024-12-
 
 - [ ] Trocar série Selic (11) pela série CDI (12), se desejado
 - [ ] Cache local das séries BCB/AwesomeAPI
+- [x] Documentação OpenAPI (Swagger)
 - [ ] Testes automatizados dos services e endpoints
 - [ ] Versionamento da API (`/api/v1`)

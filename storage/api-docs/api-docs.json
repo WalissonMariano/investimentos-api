@@ -1,0 +1,433 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Investimentos API",
+        "description": "API do Termômetro do Poder de Compra. Compara capital em caixa, CDI/Selic e dólar descontando o IPCA.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "/",
+            "description": "Servidor atual"
+        }
+    ],
+    "paths": {
+        "/api/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login da API",
+                "description": "Autentica com e-mail e secret_token e retorna um JWT.",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "secret_token"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "admin@admin.com"
+                                    },
+                                    "secret_token": {
+                                        "type": "string",
+                                        "example": "admin"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "auth_token": {
+                                            "type": "string",
+                                            "example": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "string",
+                                                    "format": "uuid"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "admin@admin.com"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "admin"
+                                                },
+                                                "token_timeout_in_seconds": {
+                                                    "type": "integer",
+                                                    "example": 86400
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciais inválidas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Credenciais inválidas."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email field is required."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Usuário autenticado",
+                "description": "Retorna os dados do usuário a partir do JWT.",
+                "operationId": "authMe",
+                "responses": {
+                    "200": {
+                        "description": "Usuário autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "admin@admin.com"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "admin"
+                                        },
+                                        "token_timeout_in_seconds": {
+                                            "type": "integer",
+                                            "example": 86400
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/termometro": {
+            "get": {
+                "tags": [
+                    "Termômetro"
+                ],
+                "summary": "Calcular termômetro do poder de compra",
+                "description": "Compara o capital em cenários de caixa, CDI/Selic e dólar, descontando o IPCA no período informado.",
+                "operationId": "termometroIndex",
+                "parameters": [
+                    {
+                        "name": "valor",
+                        "in": "query",
+                        "description": "Capital inicial em BRL",
+                        "required": true,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0.01,
+                            "example": 10000
+                        }
+                    },
+                    {
+                        "name": "dataInicio",
+                        "in": "query",
+                        "description": "Data inicial do período (Y-m-d)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-01-01"
+                        }
+                    },
+                    {
+                        "name": "dataFim",
+                        "in": "query",
+                        "description": "Data final do período (Y-m-d)",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date",
+                            "example": "2024-12-31"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cálculo realizado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "periodo": {
+                                            "properties": {
+                                                "inicio": {
+                                                    "type": "string",
+                                                    "example": "2024-01-01"
+                                                },
+                                                "fim": {
+                                                    "type": "string",
+                                                    "example": "2024-12-31"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "capital_inicial_brl": {
+                                            "type": "number",
+                                            "example": 10000
+                                        },
+                                        "fatores": {
+                                            "properties": {
+                                                "ipca": {
+                                                    "type": "number",
+                                                    "example": 1.05
+                                                },
+                                                "cdi": {
+                                                    "type": "number",
+                                                    "example": 1.1
+                                                },
+                                                "usd": {
+                                                    "type": "number",
+                                                    "example": 1.12
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "cenarios": {
+                                            "properties": {
+                                                "caixa": {
+                                                    "properties": {
+                                                        "final_nominal": {
+                                                            "type": "number",
+                                                            "example": 10000
+                                                        },
+                                                        "poder_compra": {
+                                                            "type": "number",
+                                                            "example": 9523.81
+                                                        },
+                                                        "ganho_real": {
+                                                            "type": "number",
+                                                            "example": -476.19
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "cdi": {
+                                                    "properties": {
+                                                        "final_nominal": {
+                                                            "type": "number",
+                                                            "example": 11000
+                                                        },
+                                                        "poder_compra": {
+                                                            "type": "number",
+                                                            "example": 10476.19
+                                                        },
+                                                        "ganho_real": {
+                                                            "type": "number",
+                                                            "example": 476.19
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "dolar": {
+                                                    "properties": {
+                                                        "final_nominal": {
+                                                            "type": "number",
+                                                            "example": 11200
+                                                        },
+                                                        "poder_compra": {
+                                                            "type": "number",
+                                                            "example": 10666.67
+                                                        },
+                                                        "ganho_real": {
+                                                            "type": "number",
+                                                            "example": 666.67
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "veredito": {
+                                            "properties": {
+                                                "melhor_cenario": {
+                                                    "type": "string",
+                                                    "example": "dolar"
+                                                },
+                                                "cdi_bateu_ipca": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "dolar_bateu_ipca": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "dolar_bateu_cdi": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autenticado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Parâmetros inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "O valor é obrigatório."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao calcular ou consultar fontes externas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Erro ao calcular termometro"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Informe o JWT retornado em POST /api/auth/login",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Auth",
+            "description": "Autenticação JWT da API"
+        },
+        {
+            "name": "Termômetro",
+            "description": "Cálculo do poder de compra (caixa × CDI × dólar × IPCA)"
+        }
+    ]
+}
