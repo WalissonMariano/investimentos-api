@@ -16,6 +16,22 @@ O ganho mais relevante é o **ganho real** (descontado o IPCA): se o retorno fic
 
 ---
 
+## Telas do sistema
+
+### Login do painel
+
+![Tela de login](docs/screenshots/login_api_investimentos.png)
+
+### Dashboard
+
+![Dashboard com métricas de api_request_logs](docs/screenshots/dashboard_api_investimentos.png)
+
+### Documentação Swagger
+
+![Swagger UI da Investimentos API](docs/screenshots/doc_api_investimentos.png)
+
+---
+
 ## Stack
 
 | Tecnologia | Uso |
