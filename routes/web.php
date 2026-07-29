@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,9 +38,9 @@ Route::middleware('auth:web')->group(function () {
         return view('layout.menu');
     })->name('menu');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', 
+        [DashboardController::class, 'index']
+    )->name('dashboard');
 
     Route::get('/users', 
         [UserController::class, 'index']

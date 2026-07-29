@@ -112,6 +112,7 @@
 
         .kpi-delta.up { color: var(--positive); }
         .kpi-delta.down { color: var(--negative); }
+        .kpi-delta.flat { color: var(--ink-soft); font-weight: 500; }
 
         .grid {
             display: grid;
@@ -294,6 +295,12 @@
             color: var(--negative);
         }
 
+        .empty-inline {
+            padding: 1rem 0.25rem;
+            color: var(--ink-soft);
+            font-size: 0.78rem;
+        }
+
         @media (max-width: 960px) {
             .kpis {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -320,6 +327,15 @@
     </style>
 </head>
 <body>
+    @php
+        $actionLabels = [
+            'auth.login' => 'Login API',
+            'auth.failed' => 'Login falhou',
+            'auth.me' => 'Consulta /auth',
+            'termometro' => 'Consulta termômetro',
+        ];
+    @endphp
+
     <div class="page">
         <header class="page-header">
             <div>
@@ -327,139 +343,136 @@
                 <h1>Dashboard</h1>
             </div>
             <p class="header-meta">
-                Exemplo de painel<br>
-                Atualizado em 21/07/2026
+                Dados de api_request_logs<br>
+                Atualizado em {{ $updatedAt->format('d/m/Y H:i') }}
             </p>
         </header>
 
         <section class="kpis" aria-label="Indicadores">
             <article class="kpi">
-                <p class="kpi-label">Consultas (30 dias)</p>
-                <p class="kpi-value">1.284</p>
-                <p class="kpi-delta up">+12,4% vs mês anterior</p>
+                <p class="kpi-label">Consultas termômetro (30 dias)</p>
+                <p class="kpi-value">{{ number_format($kpis['consultas']['value'], 0, ',', '.') }}</p>
+                @if ($kpis['consultas']['delta'] !== null)
+                    <p class="kpi-delta {{ $kpis['consultas']['delta'] >= 0 ? 'up' : 'down' }}">
+                        {{ $kpis['consultas']['delta'] >= 0 ? '+' : '' }}{{ $kpis['consultas']['delta'] }}% {{ $kpis['consultas']['delta_label'] }}
+                    </p>
+                @else
+                    <p class="kpi-delta flat">{{ $kpis['consultas']['delta_label'] }}</p>
+                @endif
             </article>
             <article class="kpi">
-                <p class="kpi-label">Empresas ativas</p>
-                <p class="kpi-value">38</p>
-                <p class="kpi-delta up">+3 novas</p>
+                <p class="kpi-label">Usuários ativos</p>
+                <p class="kpi-value">{{ number_format($kpis['usuarios']['value'], 0, ',', '.') }}</p>
+                <p class="kpi-delta flat">{{ $kpis['usuarios']['delta_label'] }}</p>
             </article>
             <article class="kpi">
-                <p class="kpi-label">Tokens emitidos</p>
-                <p class="kpi-value">612</p>
-                <p class="kpi-delta down">-4,1% vs semana</p>
+                <p class="kpi-label">Tokens emitidos (30 dias)</p>
+                <p class="kpi-value">{{ number_format($kpis['tokens']['value'], 0, ',', '.') }}</p>
+                @if ($kpis['tokens']['delta'] !== null)
+                    <p class="kpi-delta {{ $kpis['tokens']['delta'] >= 0 ? 'up' : 'down' }}">
+                        {{ $kpis['tokens']['delta'] >= 0 ? '+' : '' }}{{ $kpis['tokens']['delta'] }}% {{ $kpis['tokens']['delta_label'] }}
+                    </p>
+                @else
+                    <p class="kpi-delta flat">{{ $kpis['tokens']['delta_label'] }}</p>
+                @endif
             </article>
             <article class="kpi">
-                <p class="kpi-label">Uptime API</p>
-                <p class="kpi-value">99,8%</p>
-                <p class="kpi-delta up">Estável</p>
+                <p class="kpi-label">Taxa de sucesso</p>
+                <p class="kpi-value">{{ number_format($kpis['uptime']['value'], 1, ',', '.') }}%</p>
+                <p class="kpi-delta {{ $kpis['uptime']['value'] >= 99 ? 'up' : ($kpis['uptime']['value'] >= 95 ? 'flat' : 'down') }}">
+                    {{ $kpis['uptime']['delta_label'] }}
+                </p>
             </article>
         </section>
 
         <section class="grid">
             <article class="panel">
-                <h2>Termômetro — exemplo</h2>
-                <p class="panel-desc">Variação acumulada no período (dados fictícios).</p>
+                <h2>Uso da API (30 dias)</h2>
+                <p class="panel-desc">Volume relativo por tipo de ação registrada nos logs.</p>
                 <div class="bars" aria-hidden="true">
-                    <div class="bar-col">
-                        <div class="bar is-cdi" style="height: 72%"></div>
-                        <span class="bar-label">CDI<br>10%</span>
-                    </div>
-                    <div class="bar-col">
-                        <div class="bar is-ipca" style="height: 42%"></div>
-                        <span class="bar-label">IPCA<br>5%</span>
-                    </div>
-                    <div class="bar-col">
-                        <div class="bar is-usd" style="height: 86%"></div>
-                        <span class="bar-label">USD<br>12%</span>
-                    </div>
-                    <div class="bar-col">
-                        <div class="bar" style="height: 58%"></div>
-                        <span class="bar-label">Real<br>0%</span>
-                    </div>
+                    @foreach ($chartItems as $item)
+                        <div class="bar-col">
+                            <div class="bar {{ $item['class'] }}" style="height: {{ max(6, $item['percent']) }}%"></div>
+                            <span class="bar-label">{{ $item['label'] }}<br>{{ number_format($item['value'], 0, ',', '.') }}</span>
+                        </div>
+                    @endforeach
                 </div>
                 <div class="legend">
-                    <span class="legend-item"><span class="dot cdi"></span> CDI</span>
-                    <span class="legend-item"><span class="dot ipca"></span> IPCA</span>
-                    <span class="legend-item"><span class="dot usd"></span> Dólar</span>
-                    <span class="legend-item"><span class="dot"></span> Caixa</span>
+                    <span class="legend-item"><span class="dot cdi"></span> Termômetro</span>
+                    <span class="legend-item"><span class="dot ipca"></span> Login</span>
+                    <span class="legend-item"><span class="dot usd"></span> Auth me</span>
+                    <span class="legend-item"><span class="dot"></span> Falhas</span>
                 </div>
             </article>
 
             <article class="panel">
                 <h2>Atividade recente</h2>
-                <p class="panel-desc">Últimas ações no painel.</p>
-                <ul class="list">
-                    <li>
-                        <div>
-                            <strong>Login API — Minha Empresa</strong>
-                            <span>há 12 minutos</span>
-                        </div>
-                        <span class="badge">OK</span>
-                    </li>
-                    <li>
-                        <div>
-                            <strong>Consulta termômetro</strong>
-                            <span>R$ 10.000 · 2024</span>
-                        </div>
-                        <span class="badge">OK</span>
-                    </li>
-                    <li>
-                        <div>
-                            <strong>Token expirado</strong>
-                            <span>user@cliente.com</span>
-                        </div>
-                        <span class="badge warn">Atenção</span>
-                    </li>
-                    <li>
-                        <div>
-                            <strong>Nova empresa cadastrada</strong>
-                            <span>há 2 horas</span>
-                        </div>
-                        <span class="badge">OK</span>
-                    </li>
-                </ul>
+                <p class="panel-desc">Últimas ações registradas na API.</p>
+                @if ($recentLogs->isEmpty())
+                    <p class="empty-inline">Nenhum log registrado ainda.</p>
+                @else
+                    <ul class="list">
+                        @foreach ($recentLogs as $log)
+                            @php
+                                $title = $actionLabels[$log->action] ?? $log->action;
+                                $subtitle = $log->user?->email
+                                    ?? ($log->meta['email'] ?? $log->endpoint);
+                                if ($log->action === 'termometro' && isset($log->meta['valor'])) {
+                                    $subtitle = 'R$ '.number_format((float) $log->meta['valor'], 2, ',', '.');
+                                    if (! empty($log->meta['dataInicio']) && ! empty($log->meta['dataFim'])) {
+                                        $subtitle .= ' · '.$log->meta['dataInicio'].' → '.$log->meta['dataFim'];
+                                    }
+                                }
+                                $isOk = $log->status_code < 400;
+                            @endphp
+                            <li>
+                                <div>
+                                    <strong>{{ $title }}</strong>
+                                    <span>{{ $subtitle }} · {{ $log->created_at?->diffForHumans() }}</span>
+                                </div>
+                                <span class="badge {{ $isOk ? '' : 'warn' }}">
+                                    {{ $isOk ? 'OK' : $log->status_code }}
+                                </span>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             </article>
         </section>
 
         <section class="panel table-panel">
-            <h2>Integrações</h2>
-            <p class="panel-desc">Empresas consumindo a API (exemplo).</p>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Empresa</th>
-                        <th>Plano</th>
-                        <th>Requests / mês</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Minha Empresa</td>
-                        <td>Pro</td>
-                        <td>4.820</td>
-                        <td><span class="status">Ativo</span></td>
-                    </tr>
-                    <tr>
-                        <td>Carteira Norte</td>
-                        <td>Starter</td>
-                        <td>910</td>
-                        <td><span class="status">Ativo</span></td>
-                    </tr>
-                    <tr>
-                        <td>Alpha Invest</td>
-                        <td>Pro</td>
-                        <td>0</td>
-                        <td><span class="status off">Inativo</span></td>
-                    </tr>
-                    <tr>
-                        <td>Beta Capital</td>
-                        <td>Business</td>
-                        <td>12.340</td>
-                        <td><span class="status">Ativo</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2>Usuários da API</h2>
+            <p class="panel-desc">Consumo no mês atual com base em api_request_logs.</p>
+            @if ($usersUsage->isEmpty())
+                <p class="empty-inline">Nenhum uso registrado neste mês.</p>
+            @else
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Usuário</th>
+                            <th>E-mail</th>
+                            <th>Requests / mês</th>
+                            <th>Último acesso</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($usersUsage as $row)
+                            <tr>
+                                <td>{{ $row['user']?->name ?? '—' }}</td>
+                                <td>{{ $row['user']?->email ?? '—' }}</td>
+                                <td>{{ number_format($row['requests_month'], 0, ',', '.') }}</td>
+                                <td>{{ $row['last_request_at']?->format('d/m/Y H:i') ?? '—' }}</td>
+                                <td>
+                                    <span class="status {{ $row['active'] ? '' : 'off' }}">
+                                        {{ $row['active'] ? 'Ativo' : 'Inativo' }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </section>
     </div>
 </body>
