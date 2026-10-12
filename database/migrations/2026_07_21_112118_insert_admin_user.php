@@ -10,15 +10,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        User::query()->firstOrCreate(
-            ['email' => 'admin@admin.com'],
-            [
-                'name' => 'admin',
-                'password' => 'admin',
-                'secret_token' => 'admin',
-                'email_verified_at' => now(),
-            ]
-        );
+        $admin = User::query()->where('email', 'admin@admin.com')->first();
+
+        $attributes = [
+            'name' => 'admin',
+            'password' => 'admin',
+            'secret_token' => 'admin',
+            'email_verified_at' => now(),
+        ];
+
+        if ($admin) {
+            $admin->forceFill($attributes)->save();
+
+            return;
+        }
+
+        User::query()->create(array_merge($attributes, [
+            'email' => 'admin@admin.com',
+        ]));
     }
 
     /**

@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Acesso Admin — Investimentos API</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -165,6 +166,59 @@
             color: var(--ink-soft);
         }
 
+        .login-demo {
+            margin-bottom: 1.25rem;
+            padding: 0.9rem 1rem;
+            border-radius: 6px;
+            border: 1px solid var(--line);
+            background: #fffef8;
+        }
+
+        .login-demo strong {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.25rem;
+        }
+
+        .login-demo > p {
+            font-size: 0.8rem;
+            color: var(--ink-soft);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .login-demo dl {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .login-demo dl > div {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        .login-demo dt {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--yellow-deep);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .login-demo dd code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            font-size: 0.85rem;
+            color: var(--ink);
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 0.2rem 0.5rem;
+        }
+
         @keyframes rise {
             from {
                 opacity: 0;
@@ -199,6 +253,21 @@
                 alt="Termômetro do Poder de Compra — Dólar vs. CDI vs. IPCA"
             >
 
+            <div class="login-demo">
+                <strong>Acesso de demonstração</strong>
+                <p>Use as credenciais abaixo para explorar o sistema:</p>
+                <dl>
+                    <div>
+                        <dt>E-mail</dt>
+                        <dd><code>admin@admin.com</code></dd>
+                    </div>
+                    <div>
+                        <dt>Senha</dt>
+                        <dd><code>admin</code></dd>
+                    </div>
+                </dl>
+            </div>
+
             <form action="{{ route('login') }}" method="post" novalidate>
                 @csrf
 
@@ -214,7 +283,7 @@
                         id="email"
                         type="email"
                         name="email"
-                        value="{{ old('email') }}"
+                        value="{{ old('email', 'admin@admin.com') }}"
                         placeholder="admin@admin.com"
                         autocomplete="username"
                         class="{{ $errors->has('email') ? 'is-invalid' : '' }}"
@@ -231,6 +300,7 @@
                         id="password"
                         type="password"
                         name="password"
+                        value="admin"
                         placeholder="••••••••"
                         autocomplete="current-password"
                         class="{{ $errors->has('password') ? 'is-invalid' : '' }}"
